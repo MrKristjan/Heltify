@@ -364,6 +364,19 @@ footer, .other-footer {
   .nav-list.show {
     display: flex;
   }
+  .large-stats{
+    display: flex;
+    gap: 0.8rem;
+    justify-content: center;
+  }
+  .large-stats li {
+    padding: 0.5;
+  }
+  .large-stats strong {
+    display: block;
+    color: #52a9ff;
+    font-size: 1rem;
+  }
   
   .big-hero {
     flex-direction: column;
