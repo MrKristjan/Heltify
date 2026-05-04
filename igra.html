@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="image/logo.png" type="image/x-icon">
+<title>Heltify</title>
+<style>
+  body {
+    margin: 0;
+    background: #f7fbff;
+    overflow: hidden;
+  }
+  canvas {
+    display: block;
+    margin: auto;
+    background: #fff;
+    border: 2px solid #ccc;
+  }
+</style>
+</head>
+<body>
+<canvas id="gameCanvas" width="500" height="400"></canvas>
+<script>
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+let tooth = { x: 50, y: 180, size: 40, speed: 5 };
+let chocolate = { x: Math.random() * 460, y: Math.random() * 360, size: 30 };
+let score = 0;
+
+function drawTooth() {
+  ctx.fillStyle = "#ffffff";
+  ctx.beginPath();
+  ctx.arc(tooth.x, tooth.y, tooth.size / 2, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = "#000";
+  ctx.stroke();
+}
+
+function drawChocolate() {
+  ctx.fillStyle = "#8b4513";
+  ctx.fillRect(chocolate.x, chocolate.y, chocolate.size, chocolate.size);
+}
+
+function drawScore() {
+  ctx.fillStyle = "#000";
+  ctx.font = "20px Arial";
+  ctx.fillText("Score: " + score, 10, 25);
+}
+
+function update() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawTooth();
+  drawChocolate();
+  drawScore();
+
+  // Collision detection
+  if (
+    tooth.x < chocolate.x + chocolate.size &&
+    tooth.x + tooth.size > chocolate.x &&
+    tooth.y < chocolate.y + chocolate.size &&
+    tooth.y + tooth.size > chocolate.y
+  ) {
+    score++;
+    chocolate.x = Math.random() * 460;
+    chocolate.y = Math.random() * 360;
+  }
+
+  requestAnimationFrame(update);
+}
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowUp" && tooth.y > 0) tooth.y -= tooth.speed;
+  if (e.key === "ArrowDown" && tooth.y < canvas.height) tooth.y += tooth.speed;
+  if (e.key === "ArrowLeft" && tooth.x > 0) tooth.x -= tooth.speed;
+  if (e.key === "ArrowRight" && tooth.x < canvas.width) tooth.x += tooth.speed;
+});
+
+update();
+</script>
+</body>
+</html>
